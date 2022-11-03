@@ -12,43 +12,10 @@ from pprint import pprint
 # Read a stock portfolio file into a list  of dictionaries with keys: name, shares, and price
 def read_portfolio(filename):
     return parse_csv(filename)
-    '''
-    # Takes in the portfolio and reads it into a list with each item as a dict
-    portfolio = []
-
-    with open(filename, 'rt') as f:
-        rows = csv.reader(f)
-        headers = next(rows)  # stores the column names of the csv file
-
-        for rowno, row in enumerate(rows, start=1):
-            record = dict(zip(headers, row))
-            stock = {
-                'name': record['name'],
-                'shares': int(record['shares']),
-                'price': float(record['price'])
-            }
-            portfolio.append(stock)
-
-    return portfolio
-    '''
 
 
 def read_prices(filename):
     return parse_csv(filename, has_headers=False)
-    '''
-    prices = {}
-    with open(filename, 'rt') as f:
-        rows = csv.reader(f)
-        # headers = next(rows) # there is no header in prices file
-
-        for row in rows:
-            try:
-                prices[row[0]] = row[1]
-            except IndexError:
-                pass  # this makes it so the program does nothing
-
-        return prices
-    '''
 
 
 # Compute the gain/loss of portfolio by calling above methods

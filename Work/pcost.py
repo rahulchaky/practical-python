@@ -1,7 +1,3 @@
-# pcost.py
-#
-# Exercise 1.27
-
 # Updating to use report.py
 from report import read_portfolio
 
