@@ -73,9 +73,39 @@ def profit(portfolio, prices):
     print(f"Total Gain/Loss: {round(gain, 2)}")
 
 
+# List portfolio
+def make_report(portfolio, prices):
+    report = []
+
+    for stock in portfolio:
+        oldVal = float(stock['price'])
+        currVal = float(prices[stock['name']])
+        gain = currVal - oldVal
+        report.append((stock['name'], int(stock['shares']), round(
+            float(prices[stock['name']]), 2), round(gain, 2)))
+
+    return report
+
+
 portfolio = read_portfolio('Data/portfolio.csv')
 prices = read_prices('Data/prices.csv')
-profit(portfolio, prices)
+
+report = make_report(portfolio, prices)
+# for r in report:
+# print(r)
+# print('%10s %10d %10.2f %10.2f' % r)
+
+# 2.3 Formatting
+headers = ('Name', 'Shares', 'Price', 'Change')
+print(
+    f'{headers[0]:>10s} {headers[1]:>10s} {headers[2]:>10s} {headers[3]:>10s}')
+print('---------- ---------- ---------- -----------')
+for name, shares, price, change in report:
+    format_price = f'${round(price, 2)}'
+    print(f'{name:>10s} {shares:>10d} {format_price:>10s} {change:>10.2f}')
+
+
+# profit(portfolio, prices)
 '''
 if len(sys.argv) == 2:
     filename = sys.argv[1]
