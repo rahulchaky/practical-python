@@ -4,10 +4,14 @@
 import csv
 
 
-def parse_csv(filename, select=None, types=[], has_headers=True, delimiter=","):
+def parse_csv(filename, select=None, types=[], has_headers=True, delimiter=",", silence_errors=False):
     '''
     Parse a CSV file into a list of records
     '''
+
+    # Raising an exception
+    if select != None and has_headers == False:
+        raise RuntimeError("select argument requires column headers")
     with open(filename) as f:
         rows = csv.reader(f, delimiter=delimiter)
 
@@ -23,7 +27,7 @@ def parse_csv(filename, select=None, types=[], has_headers=True, delimiter=","):
                 headers = select
 
         records = []
-        for row in rows:
+        for rowno, row in enumerate(rows, start=1):
             if not row:     # Skip rows with no data
                 continue
             # Filter the row if specific columns were selected
@@ -32,7 +36,16 @@ def parse_csv(filename, select=None, types=[], has_headers=True, delimiter=","):
 
             # Cast type of rows
             if types:
-                row = [func(val) for func, val in zip(types, row)]
+                # To account for missing data
+                try:
+                    row = [func(val) for func, val in zip(types, row)]
+                except ValueError as e:
+                    # To account for if you want error to not be printed
+                    if not silence_errors:
+                        print(f"Row: {rowno}: Couldn't convert {row}")
+                        print(f"Row: {rowno}: {e}")
+                    else:
+                        pass
 
             if has_headers:
                 # Make a dictionary
