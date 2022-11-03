@@ -1,3 +1,6 @@
+# Using fileparse to read in .csv files
+from fileparse import parse_csv
+
 # Cleaned up old code
 import csv
 import sys
@@ -8,6 +11,8 @@ from pprint import pprint
 
 # Read a stock portfolio file into a list  of dictionaries with keys: name, shares, and price
 def read_portfolio(filename):
+    return parse_csv(filename)
+    '''
     # Takes in the portfolio and reads it into a list with each item as a dict
     portfolio = []
 
@@ -25,9 +30,12 @@ def read_portfolio(filename):
             portfolio.append(stock)
 
     return portfolio
+    '''
 
 
 def read_prices(filename):
+    return parse_csv(filename, has_headers=False)
+    '''
     prices = {}
     with open(filename, 'rt') as f:
         rows = csv.reader(f)
@@ -40,16 +48,20 @@ def read_prices(filename):
                 pass  # this makes it so the program does nothing
 
         return prices
+    '''
 
 
 # Compute the gain/loss of portfolio by calling above methods
 def profit(portfolio, prices):
-    oldVal, currVal, gain = 0, 0, 0
+    oldVal, currVal, currPriceVal, gain = 0, 0, 0, 0
 
     for stock in portfolio:
         oldVal += int(stock['shares']) * float(stock['price'])
     for stock in portfolio:
-        currVal += int(stock['shares']) * float(prices[stock['name']])
+        for name, price in prices:
+            if stock['name'] == name:
+                currPriceVal = float(price)
+        currVal += int(stock['shares']) * currPriceVal
 
     gain = currVal - oldVal
 
@@ -63,10 +75,14 @@ def make_report(portfolio, prices):
 
     for stock in portfolio:
         oldVal = float(stock['price'])
-        currVal = float(prices[stock['name']])
+        currVal = 0
+        for name, price in prices:
+            if stock['name'] == name:
+                currVal = float(price)
+        # currVal = float(prices[stock['name']])
         gain = currVal - oldVal
         report.append((stock['name'], int(stock['shares']), round(
-            float(prices[stock['name']]), 2), round(gain, 2)))
+            currVal, 2), round(gain, 2)))
 
     return report
 
@@ -90,15 +106,17 @@ def portfolio_report(portfolio_filename='Data/portfolio.csv', prices_filename='D
     report = make_report(portfolio, prices)
     print_report(report)
     profit(portfolio, prices)
-    return
 
 
-if len(sys.argv) == 3:
-    portfolio_filename = sys.argv[1]
-    prices_filename = sys.argv[2]
-    portfolio_report(portfolio_filename, prices_filename)
-else:
-    portfolio_report()
+# Use this as this will only execute when this specific file is run.
+# So when importing this file the whole file won't execute.
+if __name__ == '__main__':
+    if len(sys.argv) == 3:
+        portfolio_filename = sys.argv[1]
+        prices_filename = sys.argv[2]
+        portfolio_report(portfolio_filename, prices_filename)
+    else:
+        portfolio_report()
 
 '''
 Various things to try running
