@@ -2,7 +2,6 @@
 
 This repo is my work from the Practical Python Programming Course by dabaez.\
 [Link to the course](https://dabeaz-course.github.io/practical-python/)\
-[Table of Contents](https://github.com/rahulchaky/practical-python/blob/main/Notes/Contents.md)
 
 ## Course Objectives
 
@@ -12,6 +11,8 @@ program organization. By the end of this course, students should be
 able to start writing useful Python programs on their own or be able
 to understand and modify Python code written by their
 coworkers.
+
+[Table of Contents](https://github.com/rahulchaky/practical-python/blob/main/Notes/Contents.md)
 
 ## Requirements
 
