@@ -32,12 +32,15 @@ def read_portfolio(filename):
     with open(filename, 'rt') as f:
         rows = csv.reader(f)
         headers = next(rows)  # stores the column names of the csv file
-
+        '''
         for row in rows:
             holding = {'name': row[0], 'shares': int(
                 row[1]), 'price': float(row[2])}
             portfolio.append(holding)
-
+        '''
+        for rowno, row in enumerate(rows, start=1):
+            record = dict(zip(headers, row))
+            portfolio.append(record)
         return portfolio
 
 
@@ -87,7 +90,8 @@ def make_report(portfolio, prices):
     return report
 
 
-portfolio = read_portfolio('Data/portfolio.csv')
+# portfolio = read_portfolio('Data/portfolio.csv')
+portfolio = read_portfolio('Data/portfoliodate.csv')
 prices = read_prices('Data/prices.csv')
 
 report = make_report(portfolio, prices)
