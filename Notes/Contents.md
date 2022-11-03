@@ -13,9 +13,6 @@
 * [8. Testing, Logging, and Debugging](08_Testing_debugging/00_Overview.md)
 * [9. Packages](09_Packages/00_Overview.md)
 
-Please see the [Instructor Notes](InstructorNotes.md) if you plan on
-teaching the course.
-
 [Home](../README.md)
 
 
