@@ -2,7 +2,6 @@
 
 ## Table of Contents
 
-* [0. Course Setup (READ FIRST!)](00_Setup.md)
 * [1. Introduction to Python](01_Introduction/00_Overview.md)
 * [2. Working with Data](02_Working_with_data/00_Overview.md)
 * [3. Program Organization](03_Program_organization/00_Overview.md)
