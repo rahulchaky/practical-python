@@ -25,6 +25,7 @@ def read_portfolio(filename):
 '''
 
 
+# Read a stock portfolio file into a list  of dictionaries with keys: name, shares, and price
 def read_portfolio(filename):
     # Takes in the portfolio and reads it into a list with each item as a dict
     portfolio = []
@@ -40,8 +41,14 @@ def read_portfolio(filename):
         '''
         for rowno, row in enumerate(rows, start=1):
             record = dict(zip(headers, row))
-            portfolio.append(record)
-        return portfolio
+            stock = {
+                'name': record['name'],
+                'shares': int(record['shares']),
+                'price': float(record['price'])
+            }
+            portfolio.append(stock)
+
+    return portfolio
 
 
 def read_prices(filename):
@@ -103,7 +110,7 @@ report = make_report(portfolio, prices)
 headers = ('Name', 'Shares', 'Price', 'Change')
 print(
     f'{headers[0]:>10s} {headers[1]:>10s} {headers[2]:>10s} {headers[3]:>10s}')
-print('---------- ---------- ---------- -----------')
+print(('-' * 10 + ' ') * len(headers))
 for name, shares, price, change in report:
     format_price = f'${round(price, 2)}'
     print(f'{name:>10s} {shares:>10d} {format_price:>10s} {change:>10.2f}')
