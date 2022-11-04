@@ -14,9 +14,3 @@ to understand and modify Python code written by their
 coworkers.
 
 [Table of Contents](https://github.com/rahulchaky/practical-python/blob/main/Notes/Contents.md)
-
-## Requirements
-
-To complete this course, you need nothing more than a basic
-installation of Python 3.6 or newer and time to work on it.
-
