@@ -1,26 +1,25 @@
 #!/usr/bin/env python
 # report.py
 
-# Above is so you can run as a script
+# Above is so you can run as a script directly from cmd line
+# Ex: python report.py Data/portfolio.csv Data/prices.csv
 
 # Using fileparse to read in .csv files
 from fileparse import parse_csv
 
 # Cleaned up old code
-import csv
 import sys
-
-# Outputs Dictionaries better, prolly does other things as well
-from pprint import pprint
 
 
 # Read a stock portfolio file into a list  of dictionaries with keys: name, shares, and price
 def read_portfolio(filename):
-    return parse_csv(filename)
+    with open(filename) as lines:
+        return parse_csv(lines, select=['name', 'shares', 'price'], types=[str, int, float])
 
 
 def read_prices(filename):
-    return parse_csv(filename, has_headers=False)
+    with open(filename) as lines:
+        return parse_csv(lines, types=[str, float], has_headers=False)
 
 
 # Compute the gain/loss of portfolio by calling above methods
@@ -51,7 +50,6 @@ def make_report(portfolio, prices):
         for name, price in prices:
             if stock['name'] == name:
                 currVal = float(price)
-        # currVal = float(prices[stock['name']])
         gain = currVal - oldVal
         report.append((stock['name'], int(stock['shares']), round(
             currVal, 2), round(gain, 2)))
@@ -61,7 +59,6 @@ def make_report(portfolio, prices):
 
 def print_report(report):
     # Print Report Function
-    # 2.3 Formatting
     headers = ('Name', 'Shares', 'Price', 'Change')
     print(
         f'{headers[0]:>10s} {headers[1]:>10s} {headers[2]:>10s} {headers[3]:>10s}')
@@ -95,17 +92,11 @@ if __name__ == '__main__':
     main(sys.argv)
 
 '''
-Various things to try running
-portfolio_report('Data/portfolio2.csv', 'Data/prices.csv')
+# Outputs Dictionaries better, prolly does other things as well
+from pprint import pprint
+portfolio = read_portfolio('Data/portfolio.csv')
+pprint(portfolio)
 
-files = ['Data/portfolio.csv', 'Data/portfolio2.csv']
-for name in files:
-    print(f'{name:-^43s}')
-    portfolio_report(name, 'Data/prices.csv')
-    print()
+prices = read_prices('Data/prices.csv')
+pprint(prices)
 '''
-# portfolio = read_portfolio('Data/portfolio.csv')
-# pprint(portfolio)
-
-# prices = read_prices('Data/prices.csv')
-# pprint(prices)
