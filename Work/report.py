@@ -6,6 +6,7 @@
 
 # Using fileparse to read in .csv files
 from fileparse import parse_csv
+from stock import Stock
 
 # Cleaned up old code
 import sys
@@ -14,7 +15,11 @@ import sys
 # Read a stock portfolio file into a list  of dictionaries with keys: name, shares, and price
 def read_portfolio(filename):
     with open(filename) as lines:
-        return parse_csv(lines, select=['name', 'shares', 'price'], types=[str, int, float])
+        portfolio_dict = parse_csv(
+            lines, select=['name', 'shares', 'price'], types=[str, int, float])
+        portfolio = [Stock(x['name'], x['shares'], x['price'])
+                     for x in portfolio_dict]
+        return portfolio
 
 
 def read_prices(filename):
@@ -27,12 +32,12 @@ def profit(portfolio, prices):
     oldVal, currVal, currPriceVal, gain = 0, 0, 0, 0
 
     for stock in portfolio:
-        oldVal += int(stock['shares']) * float(stock['price'])
+        oldVal += int(stock.shares) * float(stock.price)
     for stock in portfolio:
         for name, price in prices:
-            if stock['name'] == name:
+            if stock.name == name:
                 currPriceVal = float(price)
-        currVal += int(stock['shares']) * currPriceVal
+        currVal += int(stock.shares) * currPriceVal
 
     gain = currVal - oldVal
 
@@ -45,13 +50,13 @@ def make_report(portfolio, prices):
     report = []
 
     for stock in portfolio:
-        oldVal = float(stock['price'])
+        oldVal = float(stock.price)
         currVal = 0
         for name, price in prices:
-            if stock['name'] == name:
+            if stock.name == name:
                 currVal = float(price)
         gain = currVal - oldVal
-        report.append((stock['name'], int(stock['shares']), round(
+        report.append((stock.name, int(stock.shares), round(
             currVal, 2), round(gain, 2)))
 
     return report

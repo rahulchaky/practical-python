@@ -19,8 +19,8 @@ def portfolio_cost(filename):
     # Adding Enumerate + Try-Except (2.4)
     for rowno, row in enumerate(records, start=1):
         try:
-            nshares = int(row['shares'])
-            price = float(row['price'])
+            nshares = int(row.shares)
+            price = float(row.price)
             total_cost += nshares * price
         # This catches errors in int() and float() conversions above
         except ValueError:
