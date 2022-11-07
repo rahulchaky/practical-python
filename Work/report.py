@@ -2,11 +2,12 @@
 # report.py
 
 # Above is so you can run as a script directly from cmd line
-# Ex: python report.py Data/portfolio.csv Data/prices.csv
+# Ex: python report.py Data/portfolio.csv Data/prices.csv txt
 
 # Using fileparse to read in .csv files
 from fileparse import parse_csv
 from stock import Stock
+import tableformat
 
 # Cleaned up old code
 import sys
@@ -62,7 +63,8 @@ def make_report(portfolio, prices):
     return report
 
 
-def print_report(report):
+def print_report(report, formatter):
+    '''
     # Print Report Function
     headers = ('Name', 'Shares', 'Price', 'Change')
     print(
@@ -71,22 +73,41 @@ def print_report(report):
     for name, shares, price, change in report:
         format_price = f'${round(price, 2)}'
         print(f'{name:>10s} {shares:>10d} {format_price:>10s} {change:>10.2f}')
+    '''
+
+    # Using TableFormatter - did not implement some of the added formatting from prior code
+    '''
+    Print a nicely formated table from a list of (name, shares, price, change) tuples.
+    '''
+    formatter.headings(['Name', 'Shares', 'Price', 'Change'])
+    for name, shares, price, change in report:
+        rowdata = [name, str(shares), f'{price:0.2f}', f'{change:0.2f}']
+        formatter.row(rowdata)
 
 
-def portfolio_report(portfolio_filename='Data/portfolio.csv', prices_filename='Data/prices.csv'):
-    # Function to call other functions
+def portfolio_report(portfolio_filename='Data/portfolio.csv', prices_filename='Data/prices.csv', fmt='txt'):
+    '''
+    Make a stock report given portfolio and price data files.
+    '''
+    # Read data files
     portfolio = read_portfolio(portfolio_filename)
     prices = read_prices(prices_filename)
+
+    # Create report data
     report = make_report(portfolio, prices)
-    print_report(report)
-    profit(portfolio, prices)
+
+    # Print it out
+    formatter = tableformat.create_formatter(fmt)
+    print_report(report, formatter)
+    # profit(portfolio, prices) - still functional, just not needed to print everytime
 
 
 def main(argv):
-    if len(argv) == 3:
+    if len(argv) == 4:
         portfolio_filename = argv[1]
         prices_filename = argv[2]
-        portfolio_report(portfolio_filename, prices_filename)
+        fmt = argv[3]
+        portfolio_report(portfolio_filename, prices_filename, fmt)
     else:
         portfolio_report()
 
