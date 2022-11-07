@@ -26,7 +26,7 @@ def portfolio_cost(filename):
         except ValueError:
             print(f'Row {rowno}: Bad row: {row}')
 
-    return total_cost
+    return records.total_cost
 
 
 def main(argv):

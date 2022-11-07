@@ -8,6 +8,7 @@
 from fileparse import parse_csv
 from stock import Stock
 import tableformat
+from portfolio import Portfolio
 
 # Cleaned up old code
 import sys
@@ -20,7 +21,7 @@ def read_portfolio(filename):
             lines, select=['name', 'shares', 'price'], types=[str, int, float])
         portfolio = [Stock(x['name'], x['shares'], x['price'])
                      for x in portfolio_dict]
-        return portfolio
+        return Portfolio(portfolio)
 
 
 def read_prices(filename):
