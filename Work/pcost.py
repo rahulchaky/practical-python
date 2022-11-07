@@ -1,3 +1,8 @@
+#!/usr/bin/env python
+# pcost.py
+
+# Above is so you can run as a script
+
 # Updating to use report.py
 from report import read_portfolio
 
@@ -24,14 +29,20 @@ def portfolio_cost(filename):
     return total_cost
 
 
-# takes in file from cmd line if provided
-# Ex: python pycost.py Data/missing.csv
-if len(sys.argv) == 2:
-    filename = sys.argv[1]
-else:
-    filename = 'Data/portfolio.csv'
-    # filename = 'Data/missing.csv'
-    # filename = 'Data/portfoliodate.csv'
+def main(argv):
+    # takes in file from cmd line if provided
+    # Ex: python pycost.py Data/missing.csv
+    if len(sys.argv) == 2:
+        filename = sys.argv[1]
+    else:
+        filename = 'Data/portfolio.csv'
+        # filename = 'Data/missing.csv'
+        # filename = 'Data/portfoliodate.csv'
 
-cost = portfolio_cost(filename)
-print(f"Total Cost: {round(cost, 2)}")
+    cost = portfolio_cost(filename)
+    print(f"Total Cost: {round(cost, 2)}")
+
+
+if __name__ == '__main__':
+    import sys
+    main(sys.argv)

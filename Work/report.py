@@ -1,3 +1,8 @@
+#!/usr/bin/env python
+# report.py
+
+# Above is so you can run as a script
+
 # Using fileparse to read in .csv files
 from fileparse import parse_csv
 
@@ -75,15 +80,19 @@ def portfolio_report(portfolio_filename='Data/portfolio.csv', prices_filename='D
     profit(portfolio, prices)
 
 
-# Use this as this will only execute when this specific file is run.
-# So when importing this file the whole file won't execute.
-if __name__ == '__main__':
-    if len(sys.argv) == 3:
-        portfolio_filename = sys.argv[1]
-        prices_filename = sys.argv[2]
+def main(argv):
+    if len(argv) == 3:
+        portfolio_filename = argv[1]
+        prices_filename = argv[2]
         portfolio_report(portfolio_filename, prices_filename)
     else:
         portfolio_report()
+
+
+# Use this as this will only execute when this specific file is run.
+# So when importing this file the whole file won't execute.
+if __name__ == '__main__':
+    main(sys.argv)
 
 '''
 Various things to try running
