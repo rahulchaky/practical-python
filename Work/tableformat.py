@@ -5,13 +5,13 @@ class TableFormatter:
         '''
         Emit the table headings.
         '''
-        # raise NotImplementedError()
+        raise NotImplementedError()
 
     def row(self, rowdata):
         '''
         Emit a single row of table data.
         '''
-        # raise NotImplementedError()
+        raise NotImplementedError()
 
 
 class TextTableFormatter(TableFormatter):
@@ -61,7 +61,14 @@ class HTMLTableFormatter(TableFormatter):
         print('</tr>')
 
 
+class FormatError(Exception):
+    pass
+
+
 def create_formatter(fmt):
+    '''
+    Create an appropriate formatter given an output format name
+    '''
     if fmt == 'txt':
         return TextTableFormatter()
     elif fmt == 'csv':
@@ -69,4 +76,14 @@ def create_formatter(fmt):
     elif fmt == 'html':
         return HTMLTableFormatter()
     else:
-        raise RuntimeError(f'Unknown format {fmt}')
+        raise FormatError(f'Unknown table format {fmt}')
+
+
+def print_table(portfolio, columns, formatter):
+    '''
+    Make a nicely formatted table from a list of objects and attribute names.
+    '''
+    formatter.headings(columns)
+    for stock in portfolio:
+        rowdata = [str(getattr(stock, colname)) for colname in columns]
+        formatter.row(rowdata)
