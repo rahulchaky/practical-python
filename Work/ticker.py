@@ -3,6 +3,7 @@
 # python ticker.py Data/portfolio.csv Data/stocklog.csv txt
 
 import csv
+import sys
 
 from follow import follow
 import report
@@ -43,6 +44,7 @@ def ticker(portfile='Data/portfolio.csv', logfile='Data/stocklog.csv', fmt='csv'
     lines = follow(logfile)
     rows = parse_stock_data(lines)
     rows = filter_symbols(rows, portfolio)
+
     formatter = tableformat.create_formatter(fmt)
     formatter.headings(['Name', 'Price', 'Change'])
     for row in rows:
@@ -50,13 +52,12 @@ def ticker(portfile='Data/portfolio.csv', logfile='Data/stocklog.csv', fmt='csv'
             [row['name'], f"{row['price']:0.2f}", f"{row['change']:0.2f}"])
 
 
-def main(args):
-    if len(args) != 4:
+def main(argv):
+    if len(argv) != 4:
         ticker()
     else:
-        ticker(args[1], args[2], args[3])
+        ticker(argv[1], argv[2], argv[3])
 
 
 if __name__ == '__main__':
-    import sys
     main(sys.argv)
