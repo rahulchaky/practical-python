@@ -15,13 +15,15 @@ import sys
 
 
 # Read a stock portfolio file into a list  of dictionaries with keys: name, shares, and price
-def read_portfolio(filename):
+def read_portfolio(filename, **opts):
     with open(filename) as lines:
-        portfolio_dict = parse_csv(
-            lines, select=['name', 'shares', 'price'], types=[str, int, float])
-        portfolio = [Stock(x['name'], x['shares'], x['price'])
-                     for x in portfolio_dict]
-        return Portfolio(portfolio)
+        portdicts = parse_csv(
+            lines, select=['name', 'shares', 'price'], types=[str, int, float], **opts)
+
+    # portfolio = [Stock(x['name'], x['shares'], x['price']) for x in portfolio_dict]
+    # **d takes in a dictionary as args
+    portfolio = [Stock(**d) for d in portdicts]
+    return Portfolio(portfolio)
 
 
 def read_prices(filename):
