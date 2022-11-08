@@ -1,8 +1,8 @@
 # fileparse.py
-#
-# Exercise 3.3
+
 import csv
-import sys
+import logging
+log = logging.getLogger(__name__)
 
 
 def parse_csv(lines, select=None, types=[], has_headers=True, delimiter=",", silence_errors=False):
@@ -43,8 +43,10 @@ def parse_csv(lines, select=None, types=[], has_headers=True, delimiter=",", sil
             except ValueError as e:
                 # To account for if you want error to not be printed
                 if not silence_errors:
-                    print(f"Row: {rowno}: Couldn't convert {row}")
-                    print(f"Row: {rowno}: {e}")
+                    # print(f"Row: {rowno}: Couldn't convert {row}")
+                    # print(f"Row: {rowno}: {e}")
+                    log.warning(f"Row: {rowno}: Couldn't convert {row}")
+                    log.debug(f"Row: {rowno}: {e}")
                 else:
                     pass
 
