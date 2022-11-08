@@ -5,28 +5,16 @@
 # Ex: python pcost.py Data/portfolio.csv
 
 # Updating to use report.py
-from report import read_portfolio
+from . import report
 
 # run as python -i pcost.py to test both portfolio.csv and missing.csv
 import sys
 
 
 def portfolio_cost(filename):
-    records = read_portfolio(filename)
-
-    # Computes the total cost (share * price) of a portfolio file
-    total_cost = 0.0
-    # Adding Enumerate + Try-Except (2.4)
-    for rowno, row in enumerate(records, start=1):
-        try:
-            nshares = int(row.shares)
-            price = float(row.price)
-            total_cost += nshares * price
-        # This catches errors in int() and float() conversions above
-        except ValueError:
-            print(f'Row {rowno}: Bad row: {row}')
-
-    return records.total_cost
+    # Computes the total cost (shares * price) of a portfolio file
+    portfolio = report.read_portfolio(filename)
+    return portfolio.total_cost
 
 
 def main(argv):

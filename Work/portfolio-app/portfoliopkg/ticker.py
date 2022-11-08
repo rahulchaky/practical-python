@@ -5,9 +5,9 @@
 import csv
 import sys
 
-from follow import follow
-import report
-import tableformat
+from .follow import follow
+from . import report
+from . import tableformat
 
 
 def select_columns(rows, indices):
